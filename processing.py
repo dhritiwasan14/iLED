@@ -6,13 +6,18 @@ import sys
 
 # length of data to read.
 chunk = 1024
+# behind namedtuple
+# '''
+# Point = namedtuple('Point', 'x y')
+# pt1 = Point(1.0, 5.0)
+# pt2 = Point(2.5, 1.5)
+# '''
 reading = namedtuple('reading', ['pitch', 'volume'])
-
+p = pyaudio.PyAudio()
 
 def main(args):
     # open the file for reading, wav file
     wf = wave.open(sys.argv[1], 'rb')
-    pA = pyaudio.PyAudio()
     mic = pA.open(format =
                 p.get_format_from_width(wf.getsampwidth()),
                 channels = wf.getnchannels(),
@@ -20,8 +25,8 @@ def main(args):
                 output = True)
 
     readings = []
-    pDetection = aubio.pitch(METHOD, BUFFER_SIZE,
-        HOP_SIZE, SAMPLE_RATE)
+    pDetection = aubio.pitch("default", 2048,
+        2048//2, 44100)
     while True:
 
         data = mic.read(2048//2) # per chunk
